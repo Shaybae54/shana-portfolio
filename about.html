@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About — Shana Shields</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Gochi+Hand&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#FCFCFC;
+  --ink:#191A18;
+  --ink-soft:#57574F;
+  --ink-faint:#8A8A80;
+  --teal:#0F7A6E;
+  --teal-deep:#0A564F;
+  --teal-tint:#E4F1EC;
+  --annotation:#26408D;
+  --line:rgba(25,26,24,.12);
+  --line-soft:rgba(25,26,24,.06);
+  --grid-dot:rgba(70,86,110,.11);
+  --u:27px;
+  --shadow:0 1px 2px rgba(25,26,24,.04),0 10px 24px -10px rgba(25,26,24,.18);
+  --ease:cubic-bezier(.23,1,.32,1);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Instrument Sans",system-ui,sans-serif;color:var(--ink);
+  background:var(--paper);
+  background-image:radial-gradient(circle,var(--grid-dot) 1px,transparent 1px);
+  background-size:var(--u) var(--u);
+  line-height:1.62;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+a{color:inherit;text-decoration:none}img{display:block;max-width:100%;height:auto}
+
+/* NAV */
+header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:flex-end;justify-content:space-between;padding:18px 52px;max-width:1160px;margin:0 auto}
+.brand{font-weight:800;letter-spacing:-.02em;font-size:19px;line-height:1}
+.brand small{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);margin-top:5px;position:relative}
+.brand small::after{content:"";position:absolute;left:0;bottom:-4px;width:52px;height:2.5px;border-radius:3px;background:var(--teal);opacity:.85}
+nav ul{list-style:none;display:flex;align-items:center;gap:24px}
+nav a.link{font-family:"JetBrains Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:3px;position:relative;color:var(--ink-soft)}
+nav a.link:hover,nav a.link.active{color:var(--ink)}
+nav a.link.active::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--teal)}
+.btn-resume{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#fff;background:var(--ink);padding:8px 14px;border-radius:2px}
+
+.wrap{max-width:1160px;margin:0 auto;padding:0 52px}
+
+/* section base uses the 140px label rail from the system */
+.row{
+  display:grid;
+  grid-template-columns:140px minmax(0,1fr);
+  gap:calc(var(--u)*1.5);
+  padding:calc(var(--u)*2) 0;
+  border-top:1px solid var(--line-soft);
+  align-items:start;
+}
+.row:first-of-type{border-top:0}
+.rail-label{padding-top:6px}
+.rail-label .eyebrow{
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);
+}
+
+/* ═══ HERO ═══ */
+.hero-row{padding-top:calc(var(--u)*2.5);padding-bottom:calc(var(--u)*2)}
+.hero-body{position:relative;min-height:520px}
+.hero-headline{
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-weight:300;
+  font-size:clamp(2.8rem,4.6vw,4.2rem);
+  line-height:1.02;letter-spacing:-.035em;
+  color:var(--ink);
+  max-width:12ch;
+  margin-bottom:calc(var(--u)*1.4);
+  position:relative;z-index:2;
+}
+.hero-headline em{font-style:normal;font-weight:800}
+.hero-bio{
+  font-size:15px;color:var(--ink);line-height:1.55;
+  max-width:44ch;margin-bottom:14px;
+  position:relative;z-index:2;
+}
+.hero-bio strong{font-weight:700}
+.hero-location{
+  font-family:"JetBrains Mono",monospace;font-size:12px;
+  color:var(--ink-soft);letter-spacing:.01em;
+  position:relative;z-index:2;
+}
+
+/* portrait - single artifact, no stacked decoration behind it */
+.portrait{
+  position:absolute;
+  right:0;top:0;
+  width:340px;height:430px;
+  border:1px solid var(--line);
+  box-shadow:var(--shadow);
+  background:#F1F1EE;
+  overflow:hidden;
+  z-index:1;
+}
+.portrait::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(25,26,24,.015) 14px,rgba(25,26,24,.015) 28px);
+}
+.portrait .ph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);
+}
+/* single Gochi annotation for the hero — one motif only */
+.hero-anno{
+  position:absolute;right:360px;bottom:40px;z-index:3;
+  font-family:"Gochi Hand",cursive;font-size:16px;
+  color:var(--annotation);line-height:1.15;
+  transform:rotate(-2deg);width:130px;text-align:right;
+}
+.hero-anno svg{color:var(--annotation);vertical-align:middle;margin-left:4px}
+
+/* ═══ HOW I THINK ═══ */
+.think-heading{
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-weight:300;
+  font-size:clamp(1.9rem,3vw,2.5rem);
+  line-height:1.05;letter-spacing:-.025em;
+  margin-bottom:calc(var(--u)*.6);
+  max-width:22ch;
+}
+.think-heading em{font-style:normal;font-weight:800}
+.think-intro{
+  font-size:15px;color:var(--ink);line-height:1.55;
+  max-width:52ch;margin-bottom:calc(var(--u)*1.4);
+}
+.think-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:calc(var(--u)*1.4);
+  border-top:1px solid var(--line-soft);padding-top:calc(var(--u)*1.2);
+}
+.tg-num{
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;
+  color:var(--ink);letter-spacing:.02em;
+  margin-bottom:8px;padding-bottom:6px;
+  border-bottom:1.5px solid var(--ink);
+  display:inline-block;
+}
+.tg h4{
+  font-size:15px;font-weight:700;line-height:1.2;
+  letter-spacing:-.01em;margin-bottom:8px;
+}
+.tg p{font-size:13.5px;color:var(--ink);line-height:1.5}
+
+/* ═══ TOOLKIT ═══ */
+.toolkit-heading{
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-weight:300;
+  font-size:clamp(1.5rem,2.3vw,1.95rem);
+  line-height:1.1;letter-spacing:-.02em;
+  margin-bottom:calc(var(--u)*.4);
+  max-width:22ch;
+}
+.toolkit-heading em{font-style:normal;font-weight:800}
+.toolkit-intro{
+  font-size:14.5px;color:var(--ink);line-height:1.55;
+  max-width:52ch;margin-bottom:calc(var(--u)*1.4);
+}
+.toolkit-cats{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:calc(var(--u)*1.4);
+}
+.tc-label{
+  font-size:13.5px;font-weight:700;color:var(--ink);
+  margin-bottom:5px;letter-spacing:-.01em;
+}
+.tc-items{font-size:13.5px;color:var(--ink-soft);line-height:1.5}
+
+/* ═══ OFF THE CLOCK — the shuffle deck + prose ═══ */
+.personal-body{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:calc(var(--u)*2.5);
+  align-items:center;
+}
+.personal-heading{
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-weight:300;
+  font-size:clamp(1.8rem,2.8vw,2.4rem);
+  line-height:1.1;letter-spacing:-.025em;
+  margin-bottom:16px;
+  max-width:14ch;
+}
+.personal-heading em{font-style:normal;font-weight:800}
+.personal-body-text{font-size:14.5px;color:var(--ink);line-height:1.65;max-width:44ch}
+
+/* the shuffle deck — the interactive artifact */
+.deck-container{position:relative;padding:calc(var(--u)*.5) 0}
+.deck-wrap{
+  position:relative;width:100%;max-width:420px;height:460px;
+  margin:0 auto;cursor:pointer;
+  -webkit-tap-highlight-color:transparent;
+}
+.deck-card{
+  position:absolute;
+  width:340px;height:420px;
+  left:50%;top:20px;margin-left:-170px;
+  border:1px solid var(--line);
+  background:#F1F1EE;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  transition:transform .5s var(--ease),opacity .5s var(--ease),box-shadow .3s var(--ease);
+  will-change:transform;
+  transform-origin:50% 100%;
+}
+.deck-card::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(-45deg,transparent,transparent 14px,rgba(25,26,24,.015) 14px,rgba(25,26,24,.015) 28px);
+  pointer-events:none;z-index:1;
+}
+.deck-card .ph{
+  position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);z-index:2;
+}
+/* only one card gets a Gochi label — motif restraint */
+.dc-label{
+  display:none;position:absolute;bottom:16px;left:20px;z-index:3;
+  font-family:"Gochi Hand",cursive;font-size:15px;color:var(--annotation);
+}
+.deck-card[data-index="2"] .dc-label{display:block}
+
+@media(hover:hover) and (pointer:fine){
+  .deck-wrap:hover .deck-top{
+    box-shadow:0 3px 6px rgba(25,26,24,.06),0 18px 40px -14px rgba(25,26,24,.24);
+    transform:translate(var(--tx,0),calc(var(--ty,0) - 4px)) rotate(var(--tr,0)) scale(var(--ts,1));
+  }
+}
+.deck-counter{
+  font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:500;
+  color:var(--ink-faint);letter-spacing:.04em;
+  text-align:center;margin-top:14px;
+}
+
+/* ═══ CTA ═══ */
+.cta-body{
+  display:grid;grid-template-columns:1fr 1fr;
+  gap:calc(var(--u)*2);align-items:start;
+}
+.cta-heading{
+  font-family:"Instrument Sans",system-ui,sans-serif;
+  font-weight:600;
+  font-size:clamp(1.5rem,2.3vw,1.95rem);
+  line-height:1.2;letter-spacing:-.02em;
+  max-width:22ch;
+}
+.cta-links{display:flex;flex-direction:column;gap:8px;padding-top:6px}
+.cta-links a{
+  font-size:15px;font-weight:600;color:var(--teal-deep);
+  display:flex;align-items:center;gap:6px;
+  border-bottom:1px solid rgba(15,122,110,.35);
+  padding-bottom:2px;width:fit-content;
+  transition:border-color .2s var(--ease);
+}
+.cta-links a:hover{border-color:var(--teal-deep)}
+.cta-links a .arrow{font-size:14px}
+
+/* FOOTER */
+.foot{
+  border-top:1px solid var(--line-soft);
+  padding:16px 0 calc(var(--u)*1.5);
+  display:flex;justify-content:space-between;align-items:center;
+  font-family:"JetBrains Mono",monospace;font-size:11px;color:var(--ink-faint);
+  letter-spacing:.03em;
+}
+
+/* RESPONSIVE */
+@media(max-width:960px){
+  .nav-inner{padding:14px 22px}
+  nav ul{gap:12px}
+  .btn-resume{padding:7px 10px;font-size:9.5px}
+  .wrap{padding:0 22px}
+
+  .row{grid-template-columns:1fr;gap:10px;padding:calc(var(--u)*1.6) 0}
+  .rail-label{padding-top:0}
+
+  .hero-body{min-height:auto}
+  .hero-headline{font-size:clamp(2.2rem,7vw,3rem);max-width:14ch;margin-bottom:calc(var(--u))}
+  .portrait{
+    position:relative;right:auto;top:auto;
+    width:78%;max-width:280px;height:auto;aspect-ratio:.79;
+    margin:calc(var(--u)*1.5) auto 0;
+  }
+  .hero-anno{position:static;transform:none;text-align:left;width:auto;margin-top:calc(var(--u));right:auto;bottom:auto}
+
+  .think-grid{grid-template-columns:1fr 1fr;gap:calc(var(--u))}
+  .toolkit-cats{grid-template-columns:1fr 1fr;gap:calc(var(--u))}
+
+  .personal-body{grid-template-columns:1fr;gap:calc(var(--u)*1.5)}
+  .deck-wrap{width:min(85vw,340px);height:auto;aspect-ratio:.86}
+  .deck-card{width:min(75vw,300px);height:auto;aspect-ratio:.79;margin-left:calc(min(75vw,300px) / -2);top:16px}
+
+  .cta-body{grid-template-columns:1fr;gap:calc(var(--u))}
+  .foot{flex-direction:column;gap:6px;text-align:center;align-items:center}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .deck-card{transition:none}html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#">SHANA SHIELDS<small>UX Strategist + Designer</small></a>
+    <nav><ul>
+      <li><a class="link" href="#">Work</a></li>
+      <li><a class="link active" href="#">About</a></li>
+      <li><a class="link" href="#">Contact</a></li>
+      <li><a class="btn-resume" href="#">Resume</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+<!-- HERO -->
+<section class="row hero-row">
+  <div class="rail-label"><div class="eyebrow">About</div></div>
+  <div class="hero-body">
+    <h1 class="hero-headline">I design for conversion, not <em>just compliments.</em></h1>
+    <p class="hero-bio">I'm <strong>Shana Shields</strong>, a product designer and UX strategist with 5+ years turning complex ecommerce problems into clear, human-centered experiences.</p>
+    <div class="hero-location">Pittsburgh, PA</div>
+
+    <div class="portrait">
+      <div class="ph">Headshot</div>
+    </div>
+    <div class="hero-anno">Same curiosity.<br>Different views.
+      <svg width="34" height="14" viewBox="0 0 34 14" fill="none" style="transform:rotate(0deg)"><path d="M2 7 C10 4, 20 4, 30 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M30 7 l-5 -3 M30 7 l-5 3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </div>
+  </div>
+</section>
+
+<!-- HOW I THINK -->
+<section class="row">
+  <div class="rail-label"><div class="eyebrow">How I think</div></div>
+  <div>
+    <h2 class="think-heading">Good <em>design</em> connects <em>the dots.</em></h2>
+    <p class="think-intro">I start with people, data, and the bigger picture. Whether it's a checkout flow or a loyalty program, I look at how everything connects &mdash; and I bring the right people together to make progress. Here's what guides my work:</p>
+    <div class="think-grid">
+      <div class="tg">
+        <div class="tg-num">01</div>
+        <h4>Research before assumptions.</h4>
+        <p>I talk to real users, dig into the data, and understand the full context before jumping to solutions.</p>
+      </div>
+      <div class="tg">
+        <div class="tg-num">02</div>
+        <h4>Systems over screens.</h4>
+        <p>A single feature can impact loyalty, support, and revenue. I design with the whole ecosystem in mind.</p>
+      </div>
+      <div class="tg">
+        <div class="tg-num">03</div>
+        <h4>Collaboration creates clarity.</h4>
+        <p>I run workshops that bring the right people to the table and turn ambiguity into decisions.</p>
+      </div>
+      <div class="tg">
+        <div class="tg-num">04</div>
+        <h4>Experimentation drives progress.</h4>
+        <p>I treat opinions as hypotheses. I prototype, test, and iterate based on evidence, not ego.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLKIT -->
+<section class="row">
+  <div class="rail-label"><div class="eyebrow">Tools I use</div></div>
+  <div>
+    <h2 class="toolkit-heading">A focused toolkit <em>for complex problems.</em></h2>
+    <p class="toolkit-intro">Tools are just tools. What matters is knowing when to use them and how to bring the right people into the process.</p>
+    <div class="toolkit-cats">
+      <div><div class="tc-label">Design + Prototyping</div><div class="tc-items">Figma, Framer, Axure<br>Design systems, Prototyping</div></div>
+      <div><div class="tc-label">Research + Strategy</div><div class="tc-items">UserTesting, Interviews<br>Journey mapping, Synthesis</div></div>
+      <div><div class="tc-label">Facilitation</div><div class="tc-items">Workshops, Miro<br>Prioritization, Stakeholder alignment</div></div>
+      <div><div class="tc-label">AI + Emerging Tech</div><div class="tc-items">Claude, Gemini<br>AI prototyping, Exploration</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- OFF THE CLOCK - shuffle deck -->
+<section class="row">
+  <div class="rail-label"><div class="eyebrow">Off the clock</div></div>
+  <div class="personal-body">
+    <div>
+      <h2 class="personal-heading">Curiosity <em>fuels everything.</em></h2>
+      <p class="personal-body-text">When I'm not designing, you'll find me traveling somewhere new, cooking something I've never tried, sketching in a notebook, or curating playlists for every mood. These things keep me curious &mdash; and that curiosity always finds its way back into my work.</p>
+    </div>
+    <div class="deck-container">
+      <div class="deck-wrap" id="deck" role="img" aria-label="Personal photos. Click to shuffle.">
+        <div class="deck-card" data-index="0"><div class="ph">Travel</div><div class="dc-label"></div></div>
+        <div class="deck-card" data-index="1"><div class="ph">Sketching</div><div class="dc-label"></div></div>
+        <div class="deck-card" data-index="2"><div class="ph">Cooking</div><div class="dc-label">staying curious</div></div>
+        <div class="deck-card" data-index="3"><div class="ph">Playlists</div><div class="dc-label"></div></div>
+        <div class="deck-card" data-index="4"><div class="ph">Exploring</div><div class="dc-label"></div></div>
+      </div>
+      <div class="deck-counter" id="deck-counter">1 / 5</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="row">
+  <div class="rail-label"><div class="eyebrow">Get in touch</div></div>
+  <div class="cta-body">
+    <h2 class="cta-heading">Have a complicated product problem? I'm usually interested.</h2>
+    <div class="cta-links">
+      <a href="mailto:hello@shanashields.design">hello@shanashields.design <span class="arrow">&rarr;</span></a>
+      <a href="https://www.linkedin.com/in/shana-shields/" target="_blank" rel="noopener">LinkedIn <span class="arrow">&rarr;</span></a>
+    </div>
+  </div>
+</section>
+
+<footer class="foot">
+  <span>&copy; 2026 Shana Shields</span>
+  <span>Pittsburgh, PA</span>
+</footer>
+
+</div>
+
+<script>
+(function(){
+  var deck = document.getElementById('deck');
+  var cards = Array.from(deck.querySelectorAll('.deck-card'));
+  var counter = document.getElementById('deck-counter');
+  var n = cards.length;
+  // stack rotations and offsets from bottom to top
+  var rots = [-6, -3, 0, 3, 6];
+  var offs = [
+    { x: -12, y: 10 },
+    { x: -5, y: 5 },
+    { x: 2, y: 0 },
+    { x: 9, y: 4 },
+    { x: 16, y: 9 }
+  ];
+  var order = [];
+  for (var i = 0; i < n; i++) order.push(i);
+
+  function render(){
+    var topIdx = 0;
+    cards.forEach(function(c, i){
+      var p = order[i];
+      var z = p + 1;
+      var r = rots[p];
+      var o = offs[p];
+      var s = 0.94 + p * 0.015;
+      var op = p < 2 ? 0.4 + p * 0.22 : 1;
+      c.style.zIndex = z;
+      c.style.setProperty('--tx', o.x + 'px');
+      c.style.setProperty('--ty', o.y + 'px');
+      c.style.setProperty('--tr', r + 'deg');
+      c.style.setProperty('--ts', s);
+      c.style.transform = 'translate(' + o.x + 'px,' + o.y + 'px) rotate(' + r + 'deg) scale(' + s + ')';
+      c.style.opacity = op;
+      c.classList.remove('deck-top');
+      if (p === n - 1) { topIdx = i; c.classList.add('deck-top'); }
+    });
+    counter.textContent = (topIdx + 1) + ' / ' + n;
+  }
+  function shuffle(){
+    cards.forEach(function(c, i){
+      if (order[i] === n - 1) order[i] = 0;
+      else order[i]++;
+    });
+    render();
+  }
+  render();
+  deck.addEventListener('click', shuffle);
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tap to Apply — Shana Shields</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&family=Gochi+Hand&family=Fraunces:ital,opsz,wght@0,9..144,400;1,9..144,400;1,9..144,500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper:#FCFCFC;--ink:#191A18;--ink-soft:#57574F;--ink-faint:#8A8A80;
+  --grid:rgba(70,86,110,0.038);
+  --teal:#0F7A6E;--teal-deep:#0A564F;--teal-muted:#8FB9B5;--teal-tint:#E4F1EC;
+  --annotation:#26408D;
+  --line:rgba(25,26,24,0.12);--line-soft:rgba(25,26,24,0.06);
+  --u:27px;
+  --shadow:0 1px 2px rgba(25,26,24,.04),0 12px 28px -14px rgba(25,26,24,.18);
+  --ease:cubic-bezier(.2,.7,.2,1);
+  --screen-bg:#F3F3F0;--screen-soft:#E7E5DE;--screen-muted:#B9B7B0;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  font-family:"Instrument Sans",system-ui,sans-serif;color:var(--ink);
+  background-color:var(--paper);
+  background-image:radial-gradient(circle,var(--grid) 1px,transparent 1px);
+  background-size:var(--u) var(--u);
+  line-height:1.62;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;
+}
+a{color:inherit;text-decoration:none}
+img{display:block;max-width:100%;height:auto}
+
+/* NAV */
+header.nav{position:sticky;top:0;z-index:40;background:color-mix(in srgb,var(--paper) 88%,transparent);backdrop-filter:blur(6px);border-bottom:1px solid var(--line-soft)}
+.nav-inner{display:flex;align-items:flex-end;justify-content:space-between;padding:18px 52px;max-width:1140px;margin:0 auto}
+.brand{font-weight:800;letter-spacing:-.02em;font-size:19px;line-height:1}
+.brand small{display:block;font-family:"JetBrains Mono",monospace;font-weight:500;font-size:10px;letter-spacing:.1em;color:var(--ink-soft);margin-top:5px;position:relative}
+.brand small::after{content:"";position:absolute;left:0;bottom:-4px;width:52px;height:2.5px;border-radius:3px;background:var(--teal);opacity:.85;transition:width .35s var(--ease)}
+a.brand:hover small::after{width:88px}
+nav ul{list-style:none;display:flex;align-items:center;gap:24px}
+nav a.link{font-family:"JetBrains Mono",monospace;font-weight:600;font-size:11px;letter-spacing:.08em;text-transform:uppercase;padding-bottom:3px;position:relative;color:var(--ink-soft)}
+nav a.link:hover,nav a.link.active{color:var(--ink)}
+nav a.link.active::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--teal)}
+.btn-resume{font-family:"JetBrains Mono",monospace;font-size:10.5px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;color:#fff;background:var(--ink);padding:8px 14px;border-radius:2px}
+
+/* LAYOUT */
+.wrap{max-width:1140px;margin:0 auto;padding:0 52px}
+.rail{display:grid;grid-template-columns:140px minmax(0,1fr);gap:calc(var(--u)*1.5);align-items:start}
+.rail>.label{padding-top:6px}
+.label .eyebrow{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint)}
+.label .aside{font-family:"Gochi Hand",cursive;font-size:1.05rem;color:var(--annotation);line-height:1.15;margin-top:10px;transform:rotate(-1.5deg)}
+section{padding:calc(var(--u)*2.5) 0;border-top:1px solid var(--line-soft)}
+section:first-of-type{border-top:0}
+/* full-bleed sections break out of rail */
+.full-bleed{margin-left:-52px;margin-right:-52px;padding-left:52px;padding-right:52px}
+
+h2{font-size:clamp(1.65rem,2.8vw,2.2rem);font-weight:800;letter-spacing:-.03em;line-height:1.12;text-wrap:balance;margin-bottom:16px;max-width:24ch}
+p.body{font-size:1.05rem;color:var(--ink);margin-bottom:14px;max-width:60ch}
+p.body:last-child{margin-bottom:0}
+p.body .mk{background:linear-gradient(transparent 62%,var(--teal-tint) 62%);padding:0 1px}
+
+/* IMAGE PLACEHOLDER */
+.img-placeholder{
+  position:relative;border:1px solid var(--line);border-radius:2px;
+  background:#F4F4F2;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;
+  min-height:200px;
+}
+.img-placeholder::before{
+  content:"";position:absolute;inset:0;
+  background:repeating-linear-gradient(
+    -45deg,transparent,transparent 14px,rgba(25,26,24,.018) 14px,rgba(25,26,24,.018) 28px
+  );
+}
+.img-placeholder .ph-label{
+  position:relative;z-index:1;
+  font-family:"JetBrains Mono",monospace;
+  font-size:10px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-faint);
+  background:var(--paper);padding:6px 14px;border-radius:2px;
+  border:1px dashed var(--line);
+}
+/* taped variant */
+.img-placeholder.taped{position:relative}
+.img-placeholder.taped::after{
+  content:"";position:absolute;top:-4px;left:50%;transform:translateX(-50%) rotate(1deg);
+  width:72px;height:22px;
+  background:linear-gradient(135deg,rgba(143,185,181,.55),rgba(143,185,181,.35));
+  border-radius:1px;z-index:2;
+}
+/* tilted variant */
+.img-placeholder.tilted{transform:rotate(-1.5deg)}
+.img-placeholder.tilted-r{transform:rotate(1.2deg)}
+
+/* CASE NAV */
+.casenav{display:flex;align-items:center;justify-content:space-between;padding:calc(var(--u)*1.2) 0 0;font-family:"JetBrains Mono",monospace;font-size:12px;color:var(--ink-soft)}
+.casenav a:hover{color:var(--ink)}
+
+/* ═══ HERO ═══ */
+.hero{padding:calc(var(--u)*2) 0 calc(var(--u)*2.5)}
+.hero-grid{display:grid;grid-template-columns:1fr 420px;gap:calc(var(--u)*2);align-items:center}
+.hero .tag{font-family:"JetBrains Mono",monospace;font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--teal-deep);margin-bottom:calc(var(--u))}
+.figwrap{position:relative;display:inline-block;margin-bottom:8px}
+.figwrap .bignum{font-size:clamp(4.8rem,12vw,9rem);font-weight:800;letter-spacing:-.05em;line-height:.82;color:var(--ink)}
+.figwrap .circle{position:absolute;left:-3%;top:-14%;width:106%;height:128%;pointer-events:none;overflow:visible}
+.figwrap .circle path{stroke:var(--teal);stroke-width:2.4;fill:none;stroke-linecap:round;opacity:.85}
+.figwrap .mnote{position:absolute;right:-190px;top:8%;width:170px;font-family:"Gochi Hand",cursive;font-size:1.2rem;color:var(--annotation);line-height:1.1;transform:rotate(-2.5deg)}
+.figwrap .mnote svg{display:block;color:var(--annotation);margin-top:3px}
+.hero h1{font-size:clamp(1.5rem,2.8vw,2.1rem);font-weight:800;letter-spacing:-.03em;line-height:1.1;max-width:22ch;margin-bottom:14px}
+.hero .sub{font-family:"Fraunces",serif;font-style:italic;font-size:1.15rem;color:var(--ink-soft);line-height:1.4;max-width:42ch;margin-bottom:calc(var(--u)*1.5)}
+.hero .quiet{display:flex;gap:calc(var(--u)*2)}
+.hero .quiet .q b{display:block;font-size:1.55rem;font-weight:800;letter-spacing:-.03em;color:var(--ink);line-height:1}
+.hero .quiet .q span{font-family:"JetBrains Mono",monospace;font-size:.72rem;font-weight:500;color:var(--ink-faint)}
+/* hero screen collage */
+.hero-screens{position:relative;height:420px}
+.hero-screens .hs{position:absolute;border:1px solid var(--line);border-radius:2px;background:#fff;box-shadow:var(--shadow);overflow:hidden}
+.hero-screens .hs-bag{width:240px;top:0;left:0;z-index:2;transform:rotate(-2deg)}
+.hero-screens .hs-checkout{width:220px;top:60px;right:0;z-index:3;transform:rotate(1.5deg)}
+.hero-screens .hs-confirm{width:180px;bottom:10px;left:50%;transform:translateX(-50%) rotate(-0.5deg);z-index:1}
+
+/* SNAPSHOT */
+.snapshot{display:grid;grid-template-columns:repeat(5,1fr);gap:var(--u);padding:calc(var(--u)) 0}
+.snapshot dt{font-family:"JetBrains Mono",monospace;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.snapshot dd{font-size:.94rem;font-weight:600;line-height:1.3}
+
+/* ═══ EXISTING EXPERIENCE ═══ */
+.existing-flow{
+  display:grid;grid-template-columns:repeat(6,1fr);gap:2px;
+  margin-top:calc(var(--u)*1.2);border-radius:2px;overflow:hidden;
+}
+.ef-step{
+  background:#fff;padding:18px 12px;text-align:center;
+  border:1px solid var(--line-soft);position:relative;
+}
+.ef-step.gap{background:repeating-linear-gradient(-45deg,#fff,#fff 6px,#F8F8F6 6px,#F8F8F6 12px)}
+.ef-step.friction{background:rgba(176,74,58,.04);border-color:rgba(176,74,58,.15)}
+.ef-icon{font-size:1.3rem;margin-bottom:6px}
+.ef-label{font-size:.78rem;font-weight:700;line-height:1.2;color:var(--ink);margin-bottom:3px}
+.ef-sub{font-size:.68rem;color:var(--ink-faint);line-height:1.2}
+.ef-arrow{position:absolute;right:-8px;top:50%;transform:translateY(-50%);z-index:1;color:var(--ink-faint);font-size:11px}
+.friction-annotation{
+  text-align:center;margin-top:14px;
+  font-family:"Gochi Hand",cursive;font-size:1.05rem;
+  color:var(--annotation);transform:rotate(-0.8deg);
+}
+
+/* EXISTING EXPERIENCE IMAGE */
+.existing-screens{
+  display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u));
+  margin-top:calc(var(--u)*1.5);
+}
+.existing-screens .img-placeholder{min-height:260px}
+
+/* ═══ JOURNEY MAP ═══ */
+.journey-wrap{
+  margin-top:calc(var(--u)*1.5);position:relative;
+  background:#fff;border:1px solid var(--line);border-radius:2px;
+  padding:0;overflow:hidden;
+}
+.jm-title-bar{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;border-bottom:1px solid var(--line);
+  background:#FAFAF8;
+}
+.jm-title-bar h4{font-size:.82rem;font-weight:800;letter-spacing:-.01em}
+.jm-title-bar span{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint)}
+.jm-grid{display:grid;grid-template-columns:repeat(6,1fr)}
+.jm-col{border-right:1px solid var(--line-soft);text-align:center}
+.jm-col:last-child{border-right:0}
+.jm-col-head{
+  font-family:"JetBrains Mono",monospace;font-size:8.5px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);
+  padding:10px 8px;border-bottom:1px solid var(--line-soft);
+}
+.jm-col-body{padding:16px 8px;min-height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:6px}
+.jm-dot{width:10px;height:10px;border-radius:50%}
+.jm-dot.ok{background:var(--teal)}
+.jm-dot.warn{background:#C9A227}
+.jm-dot.bad{background:#B04A3A}
+.jm-val{font-size:.76rem;font-weight:600;line-height:1.2}
+.jm-col.friction-col{background:rgba(176,74,58,.04)}
+.jm-col.friction-col .jm-val{color:#8A3A2E;font-weight:700}
+.jm-footer{
+  padding:12px 18px;border-top:1px solid var(--line-soft);
+  text-align:center;
+  font-family:"Gochi Hand",cursive;font-size:1.05rem;
+  color:var(--annotation);transform:rotate(-0.5deg);
+}
+
+/* DATA POINTS */
+.data-points{display:grid;grid-template-columns:repeat(3,1fr);gap:var(--u);margin-top:calc(var(--u)*1.2)}
+.dp{padding:18px;border:1px solid var(--line-soft);border-radius:2px;background:#fff}
+.dp .stat{font-size:1.5rem;font-weight:800;letter-spacing:-.03em;color:var(--teal-deep);line-height:1;margin-bottom:6px}
+.dp p{font-size:.82rem;color:var(--ink-soft);line-height:1.4}
+
+/* ═══ PAUSE ═══ */
+.pause{padding:calc(var(--u)*3) 0}
+.pause .lbl{font-family:"Gochi Hand",cursive;font-size:1.3rem;color:var(--annotation);transform:rotate(-2deg);display:inline-block;margin-bottom:calc(var(--u))}
+.pause blockquote{font-family:"Fraunces",serif;font-style:italic;font-weight:400;font-size:clamp(1.9rem,4.2vw,3rem);line-height:1.2;letter-spacing:-.015em;color:var(--ink);max-width:22ch}
+.pause blockquote .hl{position:relative;white-space:nowrap}
+.pause blockquote .hl svg{position:absolute;left:-1%;bottom:-.26em;width:102%;height:.45em;overflow:visible}
+.pause blockquote .hl path{stroke:var(--teal);stroke-width:3;fill:none;stroke-linecap:round;opacity:.88}
+.pause .aside-line{margin-top:calc(var(--u)*1.5);max-width:46ch;font-size:1rem;color:var(--ink-soft);padding-left:16px;border-left:2px solid var(--teal-tint)}
+.pause .aside-line b{color:var(--teal-deep);font-weight:700}
+
+/* ═══ DECISION ═══ */
+.decision-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:0;margin-top:calc(var(--u)*1.2);border:1px solid var(--line);border-radius:2px;overflow:hidden}
+.dg-col{padding:22px 20px;border-right:1px solid var(--line-soft);background:#fff}
+.dg-col:last-child{border-right:0}
+.dg-col h4{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:14px;padding-bottom:10px;border-bottom:1px solid var(--line-soft)}
+.dg-col ul{list-style:none}
+.dg-col li{font-size:.88rem;color:var(--ink-soft);padding:8px 0;line-height:1.4;border-bottom:1px solid var(--line-soft)}
+.dg-col li:last-child{border-bottom:0}
+.dg-col.chosen{background:rgba(15,122,110,.035)}
+.dg-col.chosen li{color:var(--ink);font-weight:600}
+.mental-model{display:flex;align-items:center;justify-content:center;gap:calc(var(--u)*1.5);margin-top:calc(var(--u)*1.5);padding:calc(var(--u)) 0}
+.mm-box{text-align:center;padding:18px 32px;border:1px solid var(--line);border-radius:2px;background:#fff}
+.mm-box .mm-label{font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:6px}
+.mm-box .mm-place{font-size:1.05rem;font-weight:700}
+.mm-arrow{color:var(--teal);font-size:1.2rem}
+.mm-note{font-family:"Gochi Hand",cursive;font-size:1rem;color:var(--annotation);text-align:center;margin-top:8px;transform:rotate(-1deg)}
+
+/* ═══ SHIPPED ═══ */
+.shipped-screens{
+  display:grid;grid-template-columns:1fr 1fr 1fr;gap:calc(var(--u));
+  margin-top:calc(var(--u)*1.5);
+}
+.shipped-screen{position:relative}
+.shipped-screen .img-placeholder{min-height:340px}
+.shipped-screen .ss-label{
+  font-family:"JetBrains Mono",monospace;
+  font-size:9px;font-weight:600;letter-spacing:.08em;
+  text-transform:uppercase;color:var(--ink-faint);
+  margin-top:10px;text-align:center;
+}
+.shipped-screen.hero-screen .img-placeholder{
+  border-color:var(--teal-muted);
+  box-shadow:var(--shadow);
+}
+.shipped-screen.hero-screen .img-placeholder::after{
+  content:"";position:absolute;inset:0;
+  border:2px solid var(--teal);border-radius:2px;
+  pointer-events:none;opacity:.3;
+}
+
+/* annotated callouts for hero screen */
+.shipped-callouts{
+  display:grid;grid-template-columns:1fr 1fr;gap:calc(var(--u));
+  margin-top:calc(var(--u)*1.5);
+}
+.sc{display:flex;gap:12px;align-items:flex-start}
+.sc .num{width:24px;height:24px;border-radius:50%;background:var(--ink);color:#fff;font-family:"JetBrains Mono",monospace;font-size:10.5px;font-weight:700;display:flex;align-items:center;justify-content:center;flex:none}
+.sc h5{font-size:.88rem;font-weight:800;letter-spacing:-.01em;margin-bottom:3px}
+.sc p{font-size:.82rem;color:var(--ink-soft);line-height:1.4}
+.sc .hand{font-family:"Gochi Hand",cursive;font-size:.92rem;color:var(--annotation);line-height:1.05;margin-top:4px;transform:rotate(-1.5deg);display:inline-block}
+
+/* ═══ RESULTS ═══ */
+.rmetrics{display:flex;align-items:flex-end;gap:calc(var(--u)*2.5);flex-wrap:wrap;margin-top:calc(var(--u)*1.2)}
+.rmetrics .r{position:relative}
+.rmetrics .r b{display:block;font-size:3.2rem;font-weight:800;letter-spacing:-.04em;line-height:.9;color:var(--ink)}
+.rmetrics .r.hero-r b{font-size:4.2rem}
+.rmetrics .r span{font-family:"JetBrains Mono",monospace;font-size:.72rem;font-weight:500;color:var(--ink-faint);margin-top:8px;display:block}
+.rmetrics .r.hero-r .circ{position:absolute;left:-8%;top:-16%;width:116%;height:118%;pointer-events:none;overflow:visible}
+.rmetrics .r.hero-r .circ path{stroke:var(--teal);stroke-width:2.4;fill:none;stroke-linecap:round;opacity:.85}
+
+/* ═══ REFLECTION ═══ */
+.hinge{display:inline-block;font-family:"Gochi Hand",cursive;font-size:1.1rem;color:var(--annotation);margin-bottom:12px;transform:rotate(-1deg)}
+
+/* ═══ ACCORDION ═══ */
+details{border-top:1px solid var(--line-soft)}
+details:first-of-type{border-top:0}
+summary{list-style:none;cursor:pointer;padding:16px 0;font-weight:700;font-size:.98rem;letter-spacing:-.01em;display:flex;align-items:center;justify-content:space-between}
+summary::-webkit-details-marker{display:none}
+summary .plus{color:var(--teal);font-size:1.3rem;transition:transform .3s var(--ease)}
+details[open] summary .plus{transform:rotate(45deg)}
+details .content{padding:0 0 18px;font-size:.95rem;color:var(--ink-soft);line-height:1.55;max-width:58ch}
+
+/* ═══ NEXT ═══ */
+.next-project{
+  display:grid;grid-template-columns:200px 1fr auto;gap:calc(var(--u)*1.5);
+  align-items:center;padding:calc(var(--u)) 0;
+  transition:transform .3s var(--ease);
+}
+.next-project:hover{transform:translateX(4px)}
+.next-project .np-thumb{height:120px;border-radius:2px;overflow:hidden}
+.next-project .np-thumb .img-placeholder{min-height:120px;height:100%}
+.next-project .lab{font-family:"JetBrains Mono",monospace;font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:5px}
+.next-project h3{font-size:1.3rem;font-weight:800;letter-spacing:-.025em;margin-bottom:5px}
+.next-project p{font-size:.88rem;color:var(--ink-soft);max-width:44ch}
+.next-project .go{font-size:1.5rem;color:var(--teal)}
+
+/* FOOTNOTE */
+.foot{margin-top:calc(var(--u)*2);border-top:1px solid var(--line);padding:14px 0 calc(var(--u)*2);font-size:12px;color:var(--ink-faint);max-width:64ch}
+.foot b{color:var(--ink-soft);font-weight:700}
+
+/* ═══ PROCESS IMAGE ═══ */
+.process-img{
+  margin-top:calc(var(--u)*1.5);border-radius:2px;overflow:hidden;
+  border:1px solid var(--line);position:relative;
+}
+.process-img img{width:100%;height:280px;object-fit:cover;display:block;filter:grayscale(0.3)}
+.process-img .tape{
+  position:absolute;top:-3px;right:40px;width:68px;height:20px;
+  background:linear-gradient(135deg,rgba(143,185,181,.5),rgba(143,185,181,.3));
+  border-radius:1px;transform:rotate(2deg);z-index:2;
+}
+.process-img .caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:10px 16px;
+  background:linear-gradient(transparent,rgba(25,26,24,.6));
+  font-family:"JetBrains Mono",monospace;font-size:9px;font-weight:600;
+  letter-spacing:.08em;text-transform:uppercase;color:rgba(255,255,255,.85);
+}
+
+/* ═══ RESPONSIVE ═══ */
+@media(max-width:900px){
+  .nav-inner{padding:16px 22px}
+  nav ul{gap:16px}
+  .wrap{padding:0 22px}
+  .full-bleed{margin-left:-22px;margin-right:-22px;padding-left:22px;padding-right:22px}
+  .rail{grid-template-columns:1fr;gap:10px}
+  .rail>.label{padding-top:0}
+  .label .aside{display:none}
+  section{padding:calc(var(--u)*1.6) 0}
+  .hero-grid{grid-template-columns:1fr;gap:var(--u)}
+  .hero-screens{height:auto;display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .hero-screens .hs{position:static;width:100%;transform:none}
+  .hero-screens .hs-confirm{display:none}
+  .figwrap .mnote{position:static;width:auto;transform:rotate(-2deg);margin-top:10px}
+  .figwrap .circle{display:none}
+  .hero .quiet{gap:calc(var(--u)*1.2)}
+  .snapshot{grid-template-columns:1fr 1fr;gap:16px}
+  .existing-flow{grid-template-columns:repeat(3,1fr)}
+  .existing-flow .ef-step:nth-child(n+4){border-top:0}
+  .existing-screens{grid-template-columns:1fr}
+  .jm-grid{grid-template-columns:repeat(3,1fr)}
+  .jm-col:nth-child(n+4) .jm-col-head,.jm-col:nth-child(n+4) .jm-col-body{display:none}
+  .data-points{grid-template-columns:1fr}
+  .decision-grid{grid-template-columns:1fr}
+  .dg-col{border-right:0;border-bottom:1px solid var(--line-soft)}
+  .dg-col:last-child{border-bottom:0}
+  .mental-model{flex-direction:column}
+  .mm-arrow{transform:rotate(90deg)}
+  .shipped-screens{grid-template-columns:1fr}
+  .shipped-callouts{grid-template-columns:1fr}
+  .rmetrics{gap:calc(var(--u)*1.5)}
+  .next-project{grid-template-columns:1fr}
+  .next-project .np-thumb{display:none}
+}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.001ms!important;transition-duration:.001ms!important}html{scroll-behavior:auto}}
+</style>
+</head>
+<body>
+
+<header class="nav">
+  <div class="nav-inner">
+    <a class="brand" href="#">SHANA SHIELDS<small>UX Strategist + Designer</small></a>
+    <nav><ul>
+      <li><a class="link active" href="#">Work</a></li>
+      <li><a class="link" href="#">About</a></li>
+      <li><a class="link" href="#">Contact</a></li>
+      <li><a class="btn-resume" href="#">Resume</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <div class="casenav">
+    <a href="#">← Back to work</a>
+    <span class="cat">Product Design / Checkout</span>
+  </div>
+
+  <!-- ═══ 1. HERO ═══ -->
+  <section class="hero" style="border-top:0">
+    <div class="hero-grid">
+      <div>
+        <div class="tag">Tap to Apply · Product Design</div>
+        <div class="figwrap">
+          <svg class="circle" viewBox="0 0 320 150" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M34 96 C12 54 74 16 166 14 C262 12 312 44 306 84 C300 122 232 140 140 138 C64 136 20 112 28 74 C33 50 58 34 96 28"/>
+          </svg>
+          <div class="bignum">$1.6M</div>
+        </div>
+        <h1>Turning forgotten store credit into incremental revenue</h1>
+        <p class="sub">Redesigning when and where customers met their credit.</p>
+        <div class="quiet">
+          <div class="q"><b>$800K</b><span>credit redeemed</span></div>
+          <div class="q"><b>+10%</b><span>usage lift</span></div>
+          <div class="q"><b>1 tap</b><span>to apply</span></div>
+        </div>
+      </div>
+      <div class="hero-screens">
+        <div class="hs hs-bag img-placeholder taped" style="min-height:300px">
+          <span class="ph-label">Shopping bag screen</span>
+        </div>
+        <div class="hs hs-checkout img-placeholder" style="min-height:260px">
+          <span class="ph-label">Checkout screen</span>
+        </div>
+        <div class="hs hs-confirm img-placeholder" style="min-height:180px">
+          <span class="ph-label">Confirmation</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 2. SNAPSHOT ═══ -->
+  <section>
+    <dl class="snapshot">
+      <div><dt>Role</dt><dd>Lead Product Designer</dd></div>
+      <div><dt>Timeline</dt><dd>Single quarter</dd></div>
+      <div><dt>Team</dt><dd>Product, Eng, Data, Marketing</dd></div>
+      <div><dt>Platform</dt><dd>Responsive web</dd></div>
+      <div><dt>Focus</dt><dd>Shopping bag &amp; checkout</dd></div>
+    </dl>
+  </section>
+
+  <!-- ═══ 3. THE PROBLEM ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">The problem</div></div>
+      <div>
+        <h2>Customers had the credit. The experience made them forget it.</h2>
+        <p class="body">After a return, selecting instant store credit sent a gift card number and PIN by email. To use it later, customers had to remember it existed, find the email, copy both values, and type them in at checkout. Redemption was low, and the reason was not the offer.</p>
+
+        <div class="existing-flow">
+          <div class="ef-step">
+            <div class="ef-icon">↩</div>
+            <div class="ef-label">Return</div>
+            <div class="ef-sub">In-store or online</div>
+            <span class="ef-arrow">→</span>
+          </div>
+          <div class="ef-step">
+            <div class="ef-icon">✉</div>
+            <div class="ef-label">Email sent</div>
+            <div class="ef-sub">Credit + PIN</div>
+            <span class="ef-arrow">→</span>
+          </div>
+          <div class="ef-step gap">
+            <div class="ef-icon">···</div>
+            <div class="ef-label">Days pass</div>
+            <div class="ef-sub">Value leaves mind</div>
+            <span class="ef-arrow">→</span>
+          </div>
+          <div class="ef-step">
+            <div class="ef-icon">🛒</div>
+            <div class="ef-label">Shop again</div>
+            <div class="ef-sub">No reminder</div>
+            <span class="ef-arrow">→</span>
+          </div>
+          <div class="ef-step friction">
+            <div class="ef-icon">🔍</div>
+            <div class="ef-label">Find email</div>
+            <div class="ef-sub">Copy code + PIN</div>
+            <span class="ef-arrow">→</span>
+          </div>
+          <div class="ef-step friction">
+            <div class="ef-icon">⌨️</div>
+            <div class="ef-label">Enter manually</div>
+            <div class="ef-sub">At checkout</div>
+          </div>
+        </div>
+        <div class="friction-annotation">too much recall, too many steps</div>
+
+        <div class="existing-screens">
+          <div class="img-placeholder tilted" style="min-height:240px">
+            <span class="ph-label">Existing email with credit code</span>
+          </div>
+          <div class="img-placeholder tilted-r" style="min-height:240px">
+            <span class="ph-label">Existing checkout manual entry</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 4. THE INSIGHT ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label">
+        <div class="eyebrow">The insight</div>
+        <div class="aside">the gap was<br>visibility,<br>not the deal</div>
+      </div>
+      <div>
+        <h2>The credit was not lost. The moment was.</h2>
+        <p class="body">Research across customer interviews, surveys, and data showed that value slipped through the cracks not because the credit was bad, but because it lived outside the shopping journey entirely.</p>
+
+        <!-- process photo -->
+        <div class="process-img">
+          <img src="ameliemourichonwusOJ2uY6wunsplash.jpg" alt="UX research and sketching in progress">
+          <div class="tape"></div>
+          <div class="caption">Discovery: mapping the existing journey</div>
+        </div>
+
+        <div class="journey-wrap">
+          <div class="jm-title-bar">
+            <h4>Customer journey: credit redemption</h4>
+            <span>Friction analysis</span>
+          </div>
+          <div class="jm-grid">
+            <div class="jm-col">
+              <div class="jm-col-head">Return</div>
+              <div class="jm-col-body"><div class="jm-dot ok"></div><div class="jm-val">Low effort</div></div>
+            </div>
+            <div class="jm-col">
+              <div class="jm-col-head">Email sent</div>
+              <div class="jm-col-body"><div class="jm-dot ok"></div><div class="jm-val">Automatic</div></div>
+            </div>
+            <div class="jm-col">
+              <div class="jm-col-head">Browse / Shop</div>
+              <div class="jm-col-body"><div class="jm-dot warn"></div><div class="jm-val">Out of mind</div></div>
+            </div>
+            <div class="jm-col friction-col">
+              <div class="jm-col-head">Bag</div>
+              <div class="jm-col-body"><div class="jm-dot bad"></div><div class="jm-val">No reminder</div></div>
+            </div>
+            <div class="jm-col friction-col">
+              <div class="jm-col-head">Checkout</div>
+              <div class="jm-col-body"><div class="jm-dot bad"></div><div class="jm-val">Hard to find</div></div>
+            </div>
+            <div class="jm-col friction-col">
+              <div class="jm-col-head">Apply credit</div>
+              <div class="jm-col-body"><div class="jm-dot bad"></div><div class="jm-val">Manual entry</div></div>
+            </div>
+          </div>
+          <div class="jm-footer">easy to forget, hard to use</div>
+        </div>
+
+        <div class="data-points">
+          <div class="dp">
+            <div class="stat">65%</div>
+            <p>of credit recipients said they forgot they had it until after checkout</p>
+          </div>
+          <div class="dp">
+            <div class="stat">3+</div>
+            <p>competitors already surfacing credit earlier in the journey with stronger usage</p>
+          </div>
+          <div class="dp">
+            <div class="stat">Simple</div>
+            <p>Customers wanted a reminder, not another thing to manage</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 5. THE REFRAME ═══ -->
+  <section>
+    <div class="pause">
+      <span class="lbl">where it clicked</span>
+      <blockquote>Customers had earned the credit, but the flow expected them to <span class="hl">remember it<svg viewBox="0 0 200 12" preserveAspectRatio="none" aria-hidden="true"><path d="M3 7 C50 3 150 4 197 6"/></svg></span>.</blockquote>
+      <p class="aside-line"><b>The reframe:</b> not an incentive problem, a visibility one. Put the value where attention already is.</p>
+    </div>
+  </section>
+
+  <!-- ═══ 6. THE DECISION ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">The decision</div></div>
+      <div>
+        <h2>What we chose and what we gave up</h2>
+        <p class="body">We could not change how the returns platform issued credit, add a new checkout step, or rely on customers remembering a PIN. The design had to work within those walls.</p>
+
+        <div class="decision-grid">
+          <div class="dg-col">
+            <h4>What we considered</h4>
+            <ul>
+              <li>Storing credit on account</li>
+              <li>Surfacing it in the shopping bag</li>
+              <li>Building a new wallet experience</li>
+            </ul>
+          </div>
+          <div class="dg-col">
+            <h4>What we rejected</h4>
+            <ul>
+              <li>Rebuilding gift card infrastructure</li>
+              <li>Creating a new account feature</li>
+              <li>A complex, multi-step flow</li>
+            </ul>
+          </div>
+          <div class="dg-col chosen">
+            <h4>The tradeoff</h4>
+            <ul>
+              <li>Gift cards could not be stored on account or combined</li>
+              <li>So we separated awareness from action to work within the system</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mental-model">
+          <div class="mm-box"><div class="mm-label">Awareness</div><div class="mm-place">Shopping bag</div></div>
+          <div class="mm-arrow">→</div>
+          <div class="mm-box"><div class="mm-label">Action</div><div class="mm-place">Checkout</div></div>
+        </div>
+        <div class="mm-note">work with the system, not around it</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 7. WHAT SHIPPED ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">What shipped</div></div>
+      <div>
+        <h2>Credit meets the customer in the bag</h2>
+        <p class="body">A clear reminder in the shopping bag, and a one-tap apply at checkout. No codes, no PINs, no extra steps.</p>
+
+        <div class="shipped-screens">
+          <div class="shipped-screen">
+            <div class="img-placeholder taped" style="min-height:380px">
+              <span class="ph-label">Shopping bag with credit nudge</span>
+            </div>
+            <div class="ss-label">Awareness in bag</div>
+          </div>
+          <div class="shipped-screen hero-screen">
+            <div class="img-placeholder taped" style="min-height:380px">
+              <span class="ph-label">Checkout with one-tap apply</span>
+            </div>
+            <div class="ss-label">Action at checkout</div>
+          </div>
+          <div class="shipped-screen">
+            <div class="img-placeholder taped" style="min-height:380px">
+              <span class="ph-label">Order confirmation</span>
+            </div>
+            <div class="ss-label">Confirmation</div>
+          </div>
+        </div>
+
+        <div class="shipped-callouts">
+          <div class="sc">
+            <div class="num">1</div>
+            <div>
+              <h5>Surfaced at the point of intent</h5>
+              <p>The reminder lives in the bag, not in an inbox they have already forgotten.</p>
+              <span class="hand">see it when it matters</span>
+            </div>
+          </div>
+          <div class="sc">
+            <div class="num">2</div>
+            <div>
+              <h5>One tap, no code</h5>
+              <p>Credit applies to the total instantly. No number, no PIN, no friction.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 8. IMPACT ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">Impact</div></div>
+      <div>
+        <h2>Value people forgot became value they used.</h2>
+        <div class="rmetrics">
+          <div class="r hero-r">
+            <svg class="circ" viewBox="0 0 220 120" preserveAspectRatio="none" aria-hidden="true"><path d="M24 78 C8 44 56 16 118 15 C184 14 214 40 210 70 C206 100 150 116 88 115 C40 114 14 96 20 68"/></svg>
+            <b>$1.6M</b><span>incremental revenue</span>
+          </div>
+          <div class="r"><b>$800K</b><span>credit recovered</span></div>
+          <div class="r"><b>+10%</b><span>opt-in lift</span></div>
+        </div>
+        <p class="body" style="margin-top:calc(var(--u)*1.2)">Moving credit into the moment of intent, and cutting the manual entry, turned a forgotten email into completed purchases.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 9. REFLECTION ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">Reflection</div></div>
+      <div>
+        <span class="hinge">what moved the number</span>
+        <h2>The best fix was not a prettier screen. It was better timing.</h2>
+        <p class="body">It would have been easy to redesign the checkout surface. The leverage was in where and when the credit appeared. Placing value at the point of intent did more than any visual change could have.</p>
+        <p class="body">If I had it back, I would involve support and CX teams earlier to quantify the cost of manual credit retrieval. That data would have earned the roadmap slot faster.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 10. FOR THE CURIOUS ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">For the curious</div></div>
+      <div>
+        <details><summary>Why reframing beat redesigning <span class="plus">+</span></summary><div class="content">Treating it as a discoverability problem instead of a redemption problem changed the whole solution space. The fix lived in placement and timing, not in the offer itself.</div></details>
+        <details><summary>Working within a platform I could not change <span class="plus">+</span></summary><div class="content">The returns system issued credit a fixed way. The design met customers downstream in the bag and at checkout rather than fighting the source.</div></details>
+        <details><summary>How the metrics were framed for the business <span class="plus">+</span></summary><div class="content">Recovered value and incremental revenue mattered more to stakeholders than raw usage. Tying the outcome to dollars earned the roadmap slot.</div></details>
+        <details><summary>What I would test next <span class="plus">+</span></summary><div class="content">Whether surfacing credit even earlier, at product and category level, lifts usage further without feeling pushy.</div></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ 11. NEXT ═══ -->
+  <section>
+    <div class="rail">
+      <div class="label"><div class="eyebrow">Next</div></div>
+      <a class="next-project" href="#">
+        <div class="np-thumb"><div class="img-placeholder"><span class="ph-label">Preview</span></div></div>
+        <div>
+          <div class="lab">Product Design</div>
+          <h3>Order History Redesign</h3>
+          <p>Rebuilding the order-history experience around what customers actually came to check.</p>
+        </div>
+        <span class="go">→</span>
+      </a>
+    </div>
+  </section>
+
+  <p class="foot"><b>A note on the numbers.</b> Revenue and usage figures reflect impact measured after launch. Figures are rounded and shared for scale, not precision.</p>
+
+</div>
+
+</body>
+</html>
