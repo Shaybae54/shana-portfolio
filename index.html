@@ -425,6 +425,28 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
   .tear-v,.stage{clip-path:none !important}
   html{scroll-behavior:auto}
 }
+
+
+
+
+
+/* work dropdown */
+.work-dd{position:relative;display:inline-flex;align-items:center}
+.work-dd>.dd-trigger{font-family:var(--mono);font-size:13px;letter-spacing:.02em;color:var(--ink-soft);display:inline-flex;align-items:center;gap:5px;padding:6px 2px;position:relative}
+.work-dd>.dd-trigger:hover,.work-dd>.dd-trigger.on{color:var(--ink)}
+.work-dd>.dd-trigger.on::after{content:"";position:absolute;left:0;right:0;bottom:0;height:1.5px;background:var(--ink)}
+.work-dd>.dd-trigger svg{width:10px;height:6px;stroke:currentColor;stroke-width:1.8;fill:none;transition:transform .2s var(--ease)}
+.work-dd:hover>.dd-trigger svg{transform:rotate(180deg)}
+.work-dd .dd-menu{display:none;position:absolute;top:100%;left:-14px;margin:0;padding:6px 0;list-style:none;min-width:260px;background:#fff;border:1px solid var(--line);box-shadow:0 4px 14px rgba(25,26,24,.10);z-index:50}
+.work-dd:hover .dd-menu,.work-dd:focus-within .dd-menu{display:block}
+.work-dd .dd-menu a{display:block;padding:8px 20px;font-family:var(--mono);font-size:12px;letter-spacing:.02em;font-weight:500;color:var(--ink-soft);white-space:nowrap}
+.work-dd .dd-menu a:hover{color:var(--ink);background:rgba(15,122,110,.04)}
+.mnav .work-dd{width:100%}
+.mnav .work-dd>.dd-trigger{font-size:16px;padding:12px 0}
+.mnav .work-dd .dd-menu{display:none;position:static;box-shadow:none;border:0;min-width:0;background:transparent;padding:0 0 4px 14px}
+.mnav .work-dd .dd-menu a{padding:6px 0;font-size:14px}
+.mnav .work-dd[data-open] .dd-menu{display:block}
+
 </style>
 </head>
 <body>
@@ -433,10 +455,18 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
   <div class="hdr__in">
     <a class="brand" href="#top">SHANA SHIELDS</a>
     <nav class="nav" aria-label="Primary">
-      <a href="#work" class="on">Work</a>
-      <a href="#about">About</a>
+      <div class="work-dd">
+        <a class="dd-trigger on" href="#work" aria-expanded="false" aria-haspopup="true">Work <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></a>
+        <ul class="dd-menu">
+          <li><a href="tap-to-apply.html">Tap to Apply</a></li>
+          <li><a href="order-history.html">Order History</a></li>
+          <li><a href="store-purchase-history.html">Store Purchase History</a></li>
+          <li><a href="incentivized-reviews.html">Points for Reviews</a></li>
+        </ul>
+      </div>
+      <a href="about.html">About</a>
       <a href="#notes">Notes</a>
-      <a href="#contact" class="contact">Contact</a>
+      <a href="contact.html" class="contact">Contact</a>
     </nav>
     <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mnav">
       <span></span><span></span><span></span>
@@ -444,10 +474,18 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
   </div>
 </header>
 <nav class="mnav" id="mnav" aria-label="Mobile">
-  <a href="#work">Work</a>
-  <a href="#about">About</a>
+  <div class="work-dd">
+    <a class="dd-trigger on" href="#work" aria-expanded="false" aria-haspopup="true">Work <svg viewBox="0 0 10 6" aria-hidden="true"><path d="M1 1l4 4 4-4"/></svg></a>
+    <ul class="dd-menu">
+      <li><a href="tap-to-apply.html">Tap to Apply</a></li>
+      <li><a href="order-history.html">Order History</a></li>
+      <li><a href="store-purchase-history.html">Store Purchase History</a></li>
+      <li><a href="incentivized-reviews.html">Points for Reviews</a></li>
+    </ul>
+  </div>
+  <a href="about.html">About</a>
   <a href="#notes">Notes</a>
-  <a href="#contact">Contact</a>
+  <a href="contact.html">Contact</a>
 </nav>
 
 <main id="top">
@@ -680,7 +718,7 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
           <div class="metric"><b>+10%</b><span>redemption</span></div>
           <div class="metric"><b>$800K</b><span>credits redeemed</span></div>
         </div>
-        <a class="proj__cta" href="#work">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="proj__cta" href="tap-to-apply.html">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
       </article>
 
       <article class="proj" data-cat="design">
@@ -716,7 +754,7 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
           <div class="proj__note">finding an order shouldn't feel like detective work.</div>
         </div>
         <div class="proj__metrics"></div>
-        <a class="proj__cta" href="#work">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="proj__cta" href="order-history.html">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
       </article>
 
       </div>
@@ -762,7 +800,7 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
           <div class="proj__note">this was descoped. research brought it back.</div>
         </div>
         <div class="proj__metrics"><div class="proj__artifact-tag">current &rarr; future state map</div></div>
-        <a class="proj__cta" href="#work">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="proj__cta" href="store-purchase-history.html">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
       </article>
 
       <article class="proj proj--strategy" data-cat="strategy">
@@ -798,7 +836,7 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
           <div class="metric"><b><span style="position:relative">~300%<svg class="circ" viewBox="0 0 90 44" preserveAspectRatio="none" aria-hidden="true"><path d="M14 32 C4 16 30 6 50 6 C74 6 86 18 82 28 C78 40 44 42 22 38 C10 36 6 26 12 18"/></svg></span></b><span>increase in reviews</span></div>
           <div class="metric"><b>~1,500</b><span>reviews per day</span></div>
         </div>
-        <a class="proj__cta" href="#work">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
+        <a class="proj__cta" href="incentivized-reviews.html">View case study <span class="arw" aria-hidden="true">&rarr;</span></a>
       </article>
 
       </div>
@@ -855,17 +893,33 @@ html.intro .labels{animation:rise .6s var(--ease) both;animation-delay:.82s}
   </div>
 </footer>
 
+
+
+
+
 <script>
 (function(){
   var b=document.querySelector('.burger'),m=document.getElementById('mnav');
   if(b&&m){
     b.addEventListener('click',function(){
       var open=m.classList.toggle('open');
-      b.setAttribute('aria-expanded',open?'true':'false');
+      b.setAttribute('aria-expanded',open);
       b.setAttribute('aria-label',open?'Close menu':'Open menu');
     });
-    m.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){m.classList.remove('open');b.setAttribute('aria-expanded','false');});});
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'&&m.classList.contains('open')){m.classList.remove('open');b.setAttribute('aria-expanded','false');b.setAttribute('aria-label','Open menu')}});
   }
+  document.querySelectorAll('.work-dd').forEach(function(dd){
+    var t=dd.querySelector('.dd-trigger');
+    if(!t)return;
+    t.addEventListener('click',function(e){
+      if(window.innerWidth<=900){e.preventDefault();
+        var open=dd.hasAttribute('data-open');
+        if(open){dd.removeAttribute('data-open');t.setAttribute('aria-expanded','false')}
+        else{dd.setAttribute('data-open','');t.setAttribute('aria-expanded','true')}
+      }
+    });
+    document.addEventListener('keydown',function(e){if(e.key==='Escape'){dd.removeAttribute('data-open');t.setAttribute('aria-expanded','false')}});
+  });
 })();
 </script>
 </body>
